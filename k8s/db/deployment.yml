@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: user-mysql-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-mysql-config
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS user;
+    USE user;
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-mysql-deployment
+  labels:
+    app: user-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-mysql
+  template:
+    metadata:
+      labels:
+        app: user-mysql
+    spec:
+      containers:
+        - name: user-mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+          volumeMounts:
+            - name: user-mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
+            - mountPath: "/var/lib/mysql"
+              subPath: "mysql"
+              name: user-mysql-data
+      volumes:
+        - name: user-mysql-initdb
+          configMap:
+            name: user-mysql-config
+        - name: user-mysql-data
+          persistentVolumeClaim:
+            claimName: user-mysql-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-mysql
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: user-mysql

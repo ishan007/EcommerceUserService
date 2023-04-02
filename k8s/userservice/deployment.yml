@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice-deployment
+  labels:
+    app: userservice
+spec:
+  template:
+    metadata:
+      name: userservice-pod
+      labels:
+        app: userservice
+    spec:
+      containers:
+        - name: userservice
+          image: ishangaurav/i-userservice:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              value: user-mysql
+            - name: DB_NAME
+              value: user
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              value: password
+            - name: KEYCLOAK_REALM
+              value: nagp-ecommerce
+            - name: KEYCLOAK_AUTH_SERVER_URL
+              value: http://20.237.26.245:8080
+            - name: KEYCLOAK_RESOURCE
+              value: nagp-ecommerce-id
+            - name: KEYCLOAK_CREDENTIALS_SECRET
+              value: uyzuBKKAYNxzlJMTkDL6CkLpDxLZ4N2E
+          resources:
+            requests:
+              memory: 250Mi
+              cpu: 260m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userservice
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice-loadbalancer-service
+spec:
+  type: LoadBalancer
+  ports:
+    - targetPort: 8081
+      port: 8081
+      nodePort: 30082
+      protocol: TCP
+  selector:
+    app: userservice
