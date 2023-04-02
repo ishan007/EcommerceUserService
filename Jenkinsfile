@@ -3,15 +3,17 @@ pipeline {
     agent any
     tools {
             maven 'maven'
-            dockerTool 'docker'
         }
 
     stages{
         stage('Build'){
             steps{
                 echo '---------- BUILD STAGE STARTED --------------'
-                sh './docker/build.sh'
-                sh '${docker}/kubectl apply -f k8s/userservice/deployment.yml'
+                sh 'mvn install'
+                sh '${bin}/docker build -t i-userservice:latest -f docker/Dockerfile .'
+                sh '${bin}/docker tag i-userservice:latest ishangaurav/i-userservice:latest'
+                sh '${bin}/docker push ishangaurav/i-userservice:latest'
+                sh '${bin}/kubectl apply -f k8s/userservice/deployment.yml'
                 echo '---------- BUILD STAGE FINISHED --------------'
             }
         }
