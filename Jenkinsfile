@@ -9,6 +9,7 @@ pipeline {
         stage('Build'){
             steps{
                 echo '---------- BUILD STAGE STARTED --------------'
+                sh '${bin}/kubectl apply -f k8s/db/deployment.yml'
                 sh 'mvn install'
                 sh '${bin}/docker build -t i-userservice:latest -f docker/Dockerfile .'
                 sh '${bin}/docker tag i-userservice:latest ishangaurav/i-userservice:latest'

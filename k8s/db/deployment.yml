@@ -3,7 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: user-mysql-pv-claim
-  namespace: kubernetes-cluster-ishangaurav
+  namespace: ishan
 spec:
   accessModes:
     - ReadWriteOnce
@@ -16,7 +16,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: user-mysql-config
-  namespace: kubernetes-cluster-ishangaurav
+  namespace: ishan
 data:
   init.sql: |
     CREATE DATABASE IF NOT EXISTS user;
@@ -26,7 +26,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-mysql-deployment
-  namespace: kubernetes-cluster-ishangaurav
+  namespace: ishan
   labels:
     app: user-mysql
 spec:
@@ -65,7 +65,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: user-mysql
-  namespace: kubernetes-cluster-ishangaurav
+  namespace: ishan
 spec:
   ports:
     - port: 3306
