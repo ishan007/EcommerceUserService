@@ -31,7 +31,7 @@ spec:
             - name: KEYCLOAK_REALM
               value: nagp-ecommerce
             - name: KEYCLOAK_AUTH_SERVER_URL
-              value: http://20.124.157.178:8080
+              value: http://40.76.169.194:8080
             - name: KEYCLOAK_RESOURCE
               value: nagp-ecommerce-id
             - name: KEYCLOAK_CREDENTIALS_SECRET
