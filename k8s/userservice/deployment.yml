@@ -35,7 +35,7 @@ spec:
             - name: KEYCLOAK_RESOURCE
               value: nagp-ecommerce-id
             - name: KEYCLOAK_CREDENTIALS_SECRET
-              value: DhwVcRTBCqmEp9Eiz6yqhblPfd7IiHzF
+              value: ndzWTa07ILpX9E4vTQhQT1xdyVlUZAPy
           resources:
             requests:
               memory: 250Mi
@@ -55,7 +55,7 @@ metadata:
   name: userservice-loadbalancer-service
   namespace: ishan
 spec:
-  loadBalancerIP: 20.124.157.178
+  loadBalancerIP: 40.76.169.194
   type: LoadBalancer
   ports:
     - targetPort: 8081

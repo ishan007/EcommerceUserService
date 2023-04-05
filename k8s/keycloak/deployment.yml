@@ -13,7 +13,7 @@ spec:
   selector:
     app: keycloak
   type: LoadBalancer
-  loadBalancerIP: 20.124.157.178
+  loadBalancerIP: 40.76.169.194
 ---
 apiVersion: apps/v1
 kind: Deployment
