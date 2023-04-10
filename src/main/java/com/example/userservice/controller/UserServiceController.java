@@ -4,8 +4,10 @@ package com.example.userservice.controller;
 import com.example.userservice.model.AuthToken;
 import com.example.userservice.model.KeycloakUser;
 import com.example.userservice.model.LoginRequest;
+import com.example.userservice.model.User;
 import com.example.userservice.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
@@ -39,6 +41,11 @@ public class UserServiceController {
         } catch(HttpStatusCodeException e) {
             throw new ResponseStatusException(e.getStatusCode(), e.getResponseBodyAsString(), e);
         }
+    }
+
+    @GetMapping
+    public User getUser(@RequestHeader(value="Authorization") String authorizationHeader){
+        return authService.getUser(authorizationHeader);
     }
 
 }
