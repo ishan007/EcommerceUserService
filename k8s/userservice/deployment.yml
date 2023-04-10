@@ -35,7 +35,7 @@ spec:
             - name: KEYCLOAK_RESOURCE
               value: nagp-ecommerce-id
             - name: KEYCLOAK_CREDENTIALS_SECRET
-              value: tW0Q0DlYnQJW6PvR5z65EgPu1kyrYpKc
+              value: gfza6sgQUiaO6PdDO5CmgkYo7N2ykriO
           resources:
             requests:
               memory: 250Mi
